@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../data/menus.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // AppBar : titre + deux IconButtons (actions)
       appBar: AppBar(
         title: const Text('Ma Garderie'),
         actions: [
@@ -22,8 +23,6 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-
-      // Drawer : menu latéral à 3 entrées
       drawer: Drawer(
         child: ListView(
           children: const [
@@ -41,16 +40,36 @@ class HomePage extends StatelessWidget {
         ),
       ),
 
-      // Corps : titre de section (la liste arrive à l'étape 8)
-      body: const Padding(
-        padding: EdgeInsets.all(16),
-        child: Text(
-          'Menus du jour',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
+      // Titre de section + liste (Expanded = la liste prend la place restante)
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: Text(
+              'Menus du jour',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              itemCount: menus.length,
+              itemBuilder: (context, index) {
+                final menu = menus[index];
+                return Card(
+                  child: ListTile(
+                    leading: Text(menu.icone, style: const TextStyle(fontSize: 32)),
+                    title: Text(menu.titre),
+                    subtitle: Text(menu.description),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
 
-      // Floating Action Button
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         tooltip: 'Ajouter',
